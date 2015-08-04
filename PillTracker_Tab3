@@ -1,0 +1,3 @@
+#define TEMBOO_ACCOUNT "rossrosenbaum"  // your Temboo account name 
+#define TEMBOO_APP_KEY_NAME "myFirstApp"  // your Temboo app key name
+#define TEMBOO_APP_KEY  "1dc797d3740a4757ba9948b415c3243f"  // your Temboo app key
