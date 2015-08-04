@@ -1,0 +1,54 @@
+        Serial.println("Appending notification to spreadsheet...");
+    
+        // we need a Process object to send a Choreo request to Temboo
+        TembooChoreo AppendRowChoreo;
+    
+        // invoke the Temboo client
+        // NOTE that the client must be reinvoked and repopulated with
+        // appropriate arguments each time its run() method is called.
+        AppendRowChoreo.begin();
+        
+        // set Temboo account credentials
+        AppendRowChoreo.setAccountName(TEMBOO_ACCOUNT);
+        AppendRowChoreo.setAppKeyName(TEMBOO_APP_KEY_NAME);
+        AppendRowChoreo.setAppKey(TEMBOO_APP_KEY);
+        
+        // identify the Temboo Library choreo to run (Google > Spreadsheets > AppendRow)
+        AppendRowChoreo.setChoreo("/Library/Google/Spreadsheets/AppendRow");
+        
+        // set the required Choreo inputs
+        // see https://www.temboo.com/library/Library/Google/Spreadsheets/AppendRow/ 
+        // for complete details about the inputs for this Choreo
+        
+        // your Google Client ID
+        AppendRowChoreo.addInput("ClientID", GOOGLE_CLIENT_ID);
+    
+        // your Google Client Secret
+        AppendRowChoreo.addInput("ClientSecret", GOOGLE_CLIENT_SECRET);
+    
+        // your Google Refresh Token
+        AppendRowChoreo.addInput("RefreshToken", GOOGLE_REFRESH_TOKEN);
+    
+        // the title of the spreadsheet you want to append to
+        AppendRowChoreo.addInput("SpreadsheetTitle", SPREADSHEET_TITLE);
+    
+        // add the RowData input item
+        AppendRowChoreo.addInput("RowData", "Pill Bottle Moved");
+    
+        // run the Choreo and wait for the results
+        // The return code (returnCode) will indicate success or failure 
+        unsigned int returnCode = AppendRowChoreo.run();
+    
+        // return code of zero (0) means success
+        if (returnCode == 0) {
+          Serial.println("Success!");
+        } else {
+          // return code of anything other than zero means failure  
+          // read and display any error messages
+          while (AppendRowChoreo.available()) {
+            char c = AppendRowChoreo.read();
+            Serial.print(c);
+          }
+        }
+    
+        AppendRowChoreo.close();
